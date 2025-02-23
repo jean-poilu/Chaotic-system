@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"network_player_connect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"network_player_connect",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
