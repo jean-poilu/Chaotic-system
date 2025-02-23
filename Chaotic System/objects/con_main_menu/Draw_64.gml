@@ -1,54 +1,46 @@
+if (taking_inputs = false)
+	keyboard_string = "";
 
-if (draw == 0)
-{
+draw_set_color(c_lime);
+if (show_cursor)
+	total_string = past_string + keyboard_string + "l";
+else
+	total_string = past_string + keyboard_string;
+draw_text(50, 50, total_string);
 
-	on = maction.anything_else;
-
-	var _x = camera_get_view_width(view_camera[0]) / 2;
-	draw_text_transformed_color(_x, 100, "Join a game", 4, 4, 0,
-		c_white, c_white, c_white, c_white, 1);
-
-	draw_text_transformed_color(_x, 260, "Username", 3, 3, 0,
-		c_white, c_white, c_white, c_white, 1);
-	
-	draw_text_transformed_color(_x, 460, "Server address", 3, 3, 0,
-		c_white, c_white, c_white, c_white, 1);
-	
-
-	draw_option(_x, 300, 400, global.username, maction.username,,,,,,, !modifying_variable);
-	draw_option(_x, 500, 600, global.address, maction.address,,,,,,, !modifying_variable);
-	draw_option(_x, 650, 750, "Join server", maction.join,,,,,,, !modifying_variable);
-	draw_option(_x, 850, 950, "Quit game", maction.quit,,,,,,, !modifying_variable);
-
-	if (modifying_variable)
-	{
-		if (string_length(keyboard_string) > 15)
-			keyboard_string = string_delete(keyboard_string, 16, 1);
-		if (current_variable == 0)
-			draw_option(_x, 300, 400, keyboard_string, maction.username,, c_yellow,,,,, !modifying_variable);
-		else if (current_variable == 1)
-			draw_option(_x, 500, 600, keyboard_string, maction.address,, c_yellow,,,,, !modifying_variable);
+if (keyboard_check(vk_control) && keyboard_check_pressed(ord("C"))) {
+	audio_play_sound(snd_drop_003, 0, 0);
+	if (responding) {
+		responding = false;
+		response_to = "";
+		past_string += keyboard_string + "\n> ";
+		keyboard_string = "";
+	}
+	else {
+		past_string += keyboard_string + "\n> ";
+		keyboard_string = "";
+	}
+	if (!taking_inputs) {
+		taking_inputs = true;
+		
 	}
 }
-else if (draw == 1)
-{
-	var _x = camera_get_view_width(view_camera[0]) / 2;
-	draw_text_transformed_color(_x, 500, "Joining game...", 3, 3, 0,
-		c_white, c_white, c_white, c_white, 1);
+
+if (keyboard_check_pressed(vk_up)) {
+	if (last_commands_at < 9 && last_commands[last_commands_at + 1] != "") {
+		last_commands_at++;
+		keyboard_string = last_commands[last_commands_at];
+	}
 }
-else if (draw == 2)
-{
-	var _x = camera_get_view_width(view_camera[0]) / 2;
-	draw_text_transformed_color(_x, 500, "Failed to connect to server " + global.address + ".", 3, 3, 0,
-		c_white, c_white, c_white, c_white, 1);
-		
-	draw_option(_x, 600, 700, "Back", maction.back);
+
+if (keyboard_check_pressed(vk_down)) {
+	if (last_commands_at > 0) {
+		last_commands_at--;
+		keyboard_string = last_commands[last_commands_at];
+	}
 }
-else if (draw == 3)
+
+if (last_commands_at == 0)
 {
-	if (!instance_exists(con_other_popup))
-		draw = 0;
-	var _x = camera_get_view_width(view_camera[0]) / 2;
-	draw_text_transformed_color(_x, 100, "Failed to connect to server " + global.address + ".", 3, 3, 0,
-		c_white, c_white, c_white, c_white, 1);
+	last_commands[0] = keyboard_string;
 }

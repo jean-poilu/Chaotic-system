@@ -31,7 +31,6 @@
   ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"px10.ttf","CopyToMask":-1,"filePath":"datafiles","name":"px10.ttf","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"px10.ttf","CopyToMask":-1,"filePath":"datafiles","name":"px10.ttf","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
   "isEcma":false,
   "LibraryEmitters":[],
@@ -56,6 +55,8 @@
     {"id":{"name":"network_player_connect","path":"scripts/network_player_connect/network_player_connect.yy",},},
     {"id":{"name":"received_packet","path":"scripts/received_packet/received_packet.yy",},},
     {"id":{"name":"recieved_packet","path":"scripts/recieved_packet/recieved_packet.yy",},},
+    {"id":{"name":"snd_bong_001","path":"sounds/snd_bong_001/snd_bong_001.yy",},},
+    {"id":{"name":"snd_drop_003","path":"sounds/snd_drop_003/snd_drop_003.yy",},},
     {"id":{"name":"spr_player_waiting","path":"sprites/spr_player_waiting/spr_player_waiting.yy",},},
     {"id":{"name":"spr_version","path":"sprites/spr_version/spr_version.yy",},},
   ],

@@ -1,6 +1,21 @@
 draw_set_font(fnt_font);
-draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+
+past_string = "> ";
+
+last_commands[10] = "";
+for (var _i = 0; _i < 10; _i++)
+	last_commands[_i] = "";
+last_commands_at = 0;
+
+show_cursor = true;
+alarm[1] = 30;
+
+taking_inputs = true;
+total_string = "";
+responding = false;
+response_to = "";
 
 enum maction
 {
@@ -23,10 +38,8 @@ if (file_exists("save"))
 	ini_close();
 }
 
+
 modifying_variable = false;
 current_variable = 0;
 on = maction.anything_else;
 draw = 0;
-
-if (instance_exists(con_other_popup))
-	draw = 3;

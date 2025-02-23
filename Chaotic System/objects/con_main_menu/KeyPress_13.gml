@@ -1,41 +1,109 @@
-if (modifying_variable)
+audio_play_sound(snd_bong_001, 0, 0);
+
+if (keyboard_string != "" && !responding) {
+	for (var _i = 8; _i > 0; _i--)
+	{
+		last_commands[_i + 1] = last_commands[_i];
+	}
+	last_commands[1] = keyboard_string;
+	last_commands_at = 0;
+}
+
+if (responding)
 {
-	modifying_variable = false;
-	if (current_variable == 0)
-		global.username = keyboard_string;
-	else if (current_variable == 1)
-		global.address = keyboard_string;
+	switch (response_to)
+	{
+		case "host-username":
+			if (keyboard_string = "") {
+				past_string += "\nEnter username: ";
+				break;
+			}
+			global.username = keyboard_string;
+			past_string += keyboard_string + "\nUsername accepted.\n> ";
+			keyboard_string = "";
+			responding = false;
+			response_to = "";
+			
+			break;
+		
+		case "join-address":
+			if (keyboard_string = "") {
+				past_string += "\nEnter address: ";
+				break;
+			}
+			global.address = keyboard_string;
+			past_string += keyboard_string + "\nAddress accepted.\nEnter username: ";
+			keyboard_string = "";
+			response_to = "join-username";
+			break;
+		
+		case "join-username":
+			if (keyboard_string = "") {
+				past_string += "\nEnter username: ";
+				break;
+			}
+			global.username = keyboard_string;
+			past_string += keyboard_string + "\nUsername accepted.\nJoining...\n";
+			keyboard_string = "";
+			responding = false;
+			response_to = "";
+			taking_inputs = false;
+			break;
+		
+		default:
+			break;
+	}
+}
+else
+{
+
+	switch (keyboard_string)
+	{
+		case "":
+			past_string += "\n> ";
+			break;
+		
+		case "host":
+			past_string += keyboard_string + "\nEnter username: ";
+			keyboard_string = "";
+			responding = true;
+			response_to = "host-username";
+			break;
+		
+		case "join":
+			past_string += keyboard_string + "\nEnter address: ";
+			keyboard_string = "";
+			responding = true;
+			response_to = "join-address";
+			break;
 	
-}
-else if (draw == 0)
-{
-	if (global.username == "")
-	{
-		var _message = instance_create_layer(camera_get_view_width(view_camera[0]) / 2,
-												420, "Instances", con_message);
-		_message.clr = c_red;
-		_message.alarm[0] = 240;
-		_message.msg = "Invalid name, cannot be empty!";
-		_message.msg_type = "other";
-		_message.center = true;
+		case "help":
+			past_string += keyboard_string + "\n\nList of available commands:\n\n" +
+												"     host - Host a game\n" +
+												"     join - Join a game\n" +
+												"     quit - Quit game\n\n";
+			keyboard_string = "";
+			past_string += "> ";
+			break;
+	
+		case "cls":
+			past_string = "> ";
+			keyboard_string = "";
+			break;
+	
+		case "exit":
+		case "q":
+		case "quit":
+			game_end();
+			break;
+	
+		default:
+			past_string += keyboard_string + "\nCommand not understood.\n";
+			keyboard_string = "";
+			past_string += "> ";
+			break;
+	
 	}
-	else if (global.address == "")
-	{
-		var _message = instance_create_layer(camera_get_view_width(view_camera[0]) / 2,
-												620, "Instances", con_message);
-		_message.clr = c_red;
-		_message.alarm[0] = 240;
-		_message.msg = "Invalid address, cannot be empty!";
-		_message.msg_type = "other";
-		_message.center = true;
-	}
-	else
-	{
-		draw = 1;
-		alarm[0] = 10;
-	}
+
 }
-else if (draw == 2)
-{
-	draw = 0;
-}
+
