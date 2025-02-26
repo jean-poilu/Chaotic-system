@@ -1,1 +1,1 @@
-global.server_version = "Boron-14";
+global.server_version = "v0.01a";

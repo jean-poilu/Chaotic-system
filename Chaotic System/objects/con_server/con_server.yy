@@ -10,8 +10,8 @@
   "name":"con_server",
   "overriddenProperties":[],
   "parent":{
-    "name":"cons",
-    "path":"folders/Controllers/cons.yy",
+    "name":"Controllers",
+    "path":"folders/Controllers.yy",
   },
   "parentObjectId":null,
   "persistent":true,

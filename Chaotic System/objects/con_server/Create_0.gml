@@ -29,6 +29,8 @@ enum network
 	rm_event
 }
 
+con_main_menu.add_to_queue("Creating enums...\n", 4);
+
 enum dialog_type {
 	create,
 	complete,
@@ -40,22 +42,39 @@ socket = 0;
 buffer = 0;
 
 port = 58001;
-max_clients = 4;
+max_clients = 8;
+
+con_main_menu.add_to_queue("Choosing port " + string(port) + ".\n", 2);
+con_main_menu.add_to_queue("Max clients set to " + string(max_clients) + ".\n", 2);
 
 type = "tcp"
+
+con_main_menu.add_to_queue("Connection type set to " + string(type) + ".\n", 2);
 
 if (type == "tcp")
 	created = network_create_server(network_socket_tcp, port, max_clients);
 else if (type == "udp")
 	created = network_create_server(network_socket_udp, port, max_clients);
+	
+con_main_menu.add_to_queue("Creating network server...\n", 15);
 
-if (created < 0)
-	show_message("Server did not create successfully. (type: "
-	+ type + ", port: " + string(port) + ", max_clients: " + string(max_clients));
+if (created < 0) {
+	con_main_menu.add_to_queue("Server creation failed, error code: " + string(created) + ".\n", 2);
+	con_main_menu.add_to_queue("> ", 1);
+	con_main_menu.taking_inputs = true;
+	instance_destroy();
+	return;
+}
+else
+	con_main_menu.add_to_queue("Created network server successfully.\n", 2);
 
 server_buffer = buffer_create(1024, buffer_fixed, 1);
 socket_list = ds_list_create();
 socket_to_instanceid = ds_map_create();
+
+con_main_menu.add_to_queue("Creating buffer...\n", 7);
+con_main_menu.add_to_queue("Creating socket list...\n", 5);
+con_main_menu.add_to_queue("Creating socket-id list...\n", 6);
 
 player_spawn_x = 100;
 player_spawn_y = 100;
@@ -69,47 +88,24 @@ for (var _i = 0; _i < 4; _i++)
 	}
 }
 
-couleur[9] = 0;
-couleur[0] = c_white;
-couleur[1] = c_red;
-couleur[2] = c_orange;
-couleur[3] = c_yellow;
-couleur[4] = c_lime;
-couleur[5] = c_aqua;
-couleur[6] = c_blue;
-couleur[7] = c_fuchsia;
-couleur[8] = c_purple;
+player_list[max_clients] = noone;
 
-global.player_colors[4] = c_white;
+con_main_menu.add_to_queue("Creating player list...\n", 9);
 
-player_list[4] = noone;
-
-global.votes[4] = 0;
 
 for (var _i = 0; _i < 4; _i++)
 {
 	player_list[_i] = noone;
-	
-	global.player_colors[_i] = c_white;
-	
-	global.votes[_i] = 0;
 }
+
+con_main_menu.add_to_queue("Server creation done.\n", 2);
+
+// con_main_menu.add_to_queue("Sending user to lobby...\n", 30 + irandom_range(-10, 10));
+// con_main_menu.add_to_queue("GOTO LOBBY", 1);
+
+con_main_menu.add_to_queue("Creating client...\n", 3);
+con_main_menu.add_to_queue("CREATE CLIENT", 1);
 
 global.messages = 0;
 
-global.saved_room = room_1;
-
-global.deaths = 0;
-
-global.dont_respawn = false;
-
-global.players = noone;
-
-global.death_id = "other";
-
-global.current_name = "";
-global.current_name_width = 0;
-
-global.message_speed = 4;
-
-global.force_top = false;
+global.own_server = false;

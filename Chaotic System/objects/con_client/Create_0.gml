@@ -3,70 +3,43 @@ draw_set_font(fnt_font);
 port = 58001;
 client = network_create_socket(network_socket_tcp);
 
+con_main_menu.add_to_queue("Choosing port " + string(port) + ".\n", 2);
+con_main_menu.add_to_queue("Creating client socket...\n", 8);
+
 connected = network_connect(client, global.address, port);
 if (connected < 0)
 {
-	con_main_menu.draw = 2;
+	con_main_menu.add_to_queue("Socket creation failed, error code: " + string(connected) + ".\n", 2);
+	con_main_menu.add_to_queue("> ", 2);
+	con_main_menu.taking_inputs = true;
 	instance_destroy();
 	exit;
 }
+
+con_main_menu.add_to_queue("Socket created successfully.\n", 2);
 
 if (instance_exists(con_message))
 {
 	with (con_message)
 		instance_destroy();
 }
-room_goto(Room1);
 
 client_buffer = buffer_create(1024, buffer_fixed, 1);
 
+con_main_menu.add_to_queue("Creating buffer...\n", 7);
+
 socket_to_instanceid = ds_map_create();
 
-global.player_colors[4] = c_white;
+con_main_menu.add_to_queue("Creating socket-id list...\n", 4);
 
-player_list[4] = noone;
+player_list[8] = noone;
 
-global.votes[4] = 0;
+con_main_menu.add_to_queue("Creating player list...\n", 6);
 
-for (var _i = 0; _i < 4; _i++)
+for (var _i = 0; _i < 8; _i++)
 {
-	global.player_colors[_i] = c_white;
-	
 	player_list[_i] = noone;
-	
-	global.votes[_i] = 0;
 }
 
-global.messages = 0;
-
-couleur[9] = c_white;
-couleur[0] = c_white;
-couleur[1] = c_red;
-couleur[2] = c_orange;
-couleur[3] = c_yellow;
-couleur[4] = c_lime;
-couleur[5] = c_aqua;
-couleur[6] = c_blue;
-couleur[7] = c_fuchsia;
-couleur[8] = c_purple;
-
-global.msg[10] = "";
-
-global.last_interact_box = noone;
-
-global.deaths = 0;
-
-global.players = noone;
-
-global.manual_spawn = false;
-global.spawn_x = 0;
-global.spawn_y = 0;
-
-global.death_id = "other";
-
-global.current_name = "";
-global.current_name_width = 0;
-
-global.message_speed = 4;
-
-global.force_top = false;
+con_main_menu.add_to_queue("Sending player to lobby...\n", 30 + irandom_range(-10, 10));
+con_main_menu.add_to_queue("GOTO LOBBY", 30 + irandom_range(-10, 10));

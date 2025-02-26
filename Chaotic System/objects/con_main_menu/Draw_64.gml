@@ -1,8 +1,16 @@
-if (taking_inputs = false)
+shader_set(shd_combined);
+
+shader_set_uniform_f(uTime, current_time);
+shader_set_uniform_f(uIntensity, intensity_value);
+var tex = sprite_get_texture(spr_player_waiting, 0);
+shader_set_uniform_f(uTexel, texture_get_texel_width(tex), texture_get_texel_height(tex));
+
+
+if (taking_inputs = false || is_drawing)
 	keyboard_string = "";
 
 draw_set_color(c_lime);
-if (show_cursor)
+if (show_cursor && !is_drawing)
 	total_string = past_string + keyboard_string + "l";
 else
 	total_string = past_string + keyboard_string;
@@ -10,20 +18,44 @@ draw_text(50, 50, total_string);
 
 if (keyboard_check(vk_control) && keyboard_check_pressed(ord("C"))) {
 	audio_play_sound(snd_drop_003, 0, 0);
-	if (responding) {
-		responding = false;
-		response_to = "";
-		past_string += keyboard_string + "\n> ";
-		keyboard_string = "";
-	}
-	else {
-		past_string += keyboard_string + "\n> ";
-		keyboard_string = "";
-	}
 	if (!taking_inputs) {
 		taking_inputs = true;
+		past_string += keyboard_string + "Canceled.\n> ";
+		keyboard_string = "";
+		
+		line_num += 1;
 		
 	}
+	else
+	{
+		if (responding) {
+			responding = false;
+			response_to = "";
+			past_string += keyboard_string + "\n> ";
+			keyboard_string = "";
+		
+			line_num += 1;
+		
+			if (line_num >= 20) {
+				line_num = 0;
+				past_string = "> ";
+			}
+		
+		}
+		else {
+			past_string += keyboard_string + "\n> ";
+			keyboard_string = "";
+		
+			line_num += 1;
+		
+		}
+	}
+	
+	if (line_num >= 20) {
+		line_num = 0;
+		past_string = "> ";
+	}
+	
 }
 
 if (keyboard_check_pressed(vk_up)) {
@@ -44,3 +76,5 @@ if (last_commands_at == 0)
 {
 	last_commands[0] = keyboard_string;
 }
+
+shader_reset();

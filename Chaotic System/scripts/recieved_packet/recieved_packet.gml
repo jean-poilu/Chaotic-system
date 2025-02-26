@@ -9,7 +9,6 @@ function recieved_packet(_buffer){
 			var _disconnect = buffer_read(_buffer, buffer_bool);
 			if (_disconnect)
 			{
-				global.server_version = buffer_read(_buffer, buffer_string);
 				network_send_packet(client, client_buffer, buffer_tell(client_buffer));
 				room_goto(rm_main_menu);
 			}

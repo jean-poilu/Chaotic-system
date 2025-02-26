@@ -1,4 +1,4 @@
-if (room == Room1)
+if (room == rm_waiting_room)
 {
 	draw_self();
 

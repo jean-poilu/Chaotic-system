@@ -7,8 +7,9 @@ function received_packet(_buffer, _socket){
 	{
 		case network.player_check_version:
 			var _client_version = buffer_read(_buffer, buffer_string);
-			if (_client_version == global.server_version)
+			if (_client_version == global.client_version || global.own_server)
 			{
+				global.own_server = false;
 				ds_list_add(socket_list, _socket);
 		
 				buffer_seek(server_buffer, buffer_seek_start, 0);
@@ -25,7 +26,7 @@ function received_packet(_buffer, _socket){
 				buffer_seek(server_buffer, buffer_seek_start, 0);
 				buffer_write(server_buffer, buffer_u8, network.player_check_version);
 				buffer_write(server_buffer, buffer_bool, true);
-				buffer_write(server_buffer, buffer_string, global.server_version);
+				buffer_write(server_buffer, buffer_string, global.client_version);
 				network_send_packet(_socket, server_buffer, buffer_tell(server_buffer));
 				network_destroy(_socket);
 			}
@@ -45,7 +46,7 @@ function received_packet(_buffer, _socket){
 			_message.msg_type = "join/dc";
 			global.messages++;
 			
-			if (room != Room1)
+			if (room != rm_waiting_room)
 			{
 				var _i = 0;
 				repeat(ds_list_size(socket_list))

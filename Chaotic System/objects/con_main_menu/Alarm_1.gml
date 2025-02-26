@@ -1,2 +1,2 @@
 show_cursor = !show_cursor;
-alarm[1] = 30;
+alarm[1] = cursor_freq;
