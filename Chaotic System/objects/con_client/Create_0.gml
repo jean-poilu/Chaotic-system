@@ -1,5 +1,36 @@
 draw_set_font(fnt_font);
 
+enum network
+{
+	player_check_version,
+	player_establish,
+	player_connect,
+	player_joined,
+	player_disconnected,
+	move0,
+	go,
+	move1,
+	destroy_player,
+	create_player,
+	inputs,
+	change_color,
+	next_level,
+	lightning,
+	dialog,
+	kick,
+	change_variable,
+	vote_action,
+	popup,
+	add_player,
+	goto_menu,
+	sync_moving,
+	snail,
+	fishing,
+	rm_event
+}
+
+con_main_menu.add_to_queue("Creating enums.\n", 4);
+
 port = 58001;
 client = network_create_socket(network_socket_tcp);
 

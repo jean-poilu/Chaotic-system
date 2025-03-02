@@ -21,12 +21,7 @@ if (ds_queue_head(queue) == "CREATE CLIENT") {
 	exit;
 }
 
-if (line_num >= 19) {
-	past_string = ds_queue_head(queue);
-	line_num = 0;
-}
-else
-	past_string += ds_queue_head(queue);
+past_string += ds_queue_head(queue);
 	
 ds_queue_dequeue(queue);
 

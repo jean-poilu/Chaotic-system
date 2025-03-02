@@ -1,0 +1,2 @@
+username = "";
+player_num = "";

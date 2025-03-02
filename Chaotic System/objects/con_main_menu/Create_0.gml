@@ -12,6 +12,8 @@ intensity_value = 0.6;
 past_string = "";
 
 line_num = 0;
+scroll_pos = 0;
+overboard = 0;
 
 last_commands[10] = "";
 for (var _i = 0; _i < 10; _i++)
@@ -68,13 +70,25 @@ function add_to_queue(_str, _time) {
 
 is_drawing = true;
 
-add_to_queue("Initilizing system...\n", 8);
-add_to_queue("Reserving memory...\n", 4);
-add_to_queue("Allocating space...\n", 2);
-add_to_queue("Reading history logs...\n", 6);
-add_to_queue("Managing exceptions...\n", 2);
-add_to_queue("Checking for updates...\n", 22);
-add_to_queue("Everything is up to date.\n", 2);
-add_to_queue("\n", 2);
-add_to_queue("Welcome to the UM OS v.12.06.\n", 2);
-add_to_queue("> ", 1);
+if (global.session_msg == "")
+{
+
+	add_to_queue("Initilizing system...\n", 8);
+	add_to_queue("Reserving memory...\n", 4);
+	add_to_queue("Allocating space...\n", 2);
+	add_to_queue("Reading history logs...\n", 6);
+	add_to_queue("Managing exceptions...\n", 2);
+	add_to_queue("Checking for updates...\n", 22);
+	add_to_queue("Everything is up to date.\n", 2);
+	add_to_queue("\n", 2);
+	add_to_queue("Welcome to the UM OS v.12.06.\n", 2);
+	add_to_queue("> ", 1);
+
+}
+else if (global.session_msg == "kicked")
+{
+	
+	add_to_queue("You were kicked from the game.\n", 2);
+	add_to_queue("> ", 1);
+	
+}

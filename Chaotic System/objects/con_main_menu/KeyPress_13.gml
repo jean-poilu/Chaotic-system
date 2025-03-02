@@ -1,8 +1,6 @@
-audio_play_sound(snd_bong_001, 0, 0);
-
 if (!is_drawing)
 {
-
+	audio_play_sound(snd_bong_001, 0, 0);
 	if (keyboard_string != "" && !responding) {
 		for (var _i = 8; _i > 0; _i--)
 		{
@@ -11,20 +9,6 @@ if (!is_drawing)
 		last_commands[1] = keyboard_string;
 		last_commands_at = 0;
 	}
-
-	if (line_num >= 20) {
-		if (!responding) {
-			past_string = "> ";
-			if (keyboard_string == "") {
-				past_string = "> ";
-				exit;
-			}
-		}
-		else
-			past_string = "";
-		line_num = 0;
-	}
-
 
 	if (responding)
 	{
@@ -39,7 +23,7 @@ if (!is_drawing)
 					break;
 				}
 				global.username = keyboard_string;
-				past_string += keyboard_string + "\nUsername accepted.\nCreating session...\n";
+				past_string += keyboard_string + "\nUsername accepted.\nLaunching server...\n";
 				keyboard_string = "";
 				responding = false;
 				response_to = "";
@@ -47,7 +31,12 @@ if (!is_drawing)
 				
 				show_cursor = false;
 				
-				instance_create_depth(0, 0, 0, con_server);
+				instance_create_depth(0, 0, 0, con_server_init);
+				global.host = true;
+				
+				global.address = "127.0.0.1";
+				instance_create_depth(0, 0, 0, con_client);
+				
 			
 				line_num += 2;
 			
@@ -107,15 +96,10 @@ if (!is_drawing)
 			
 				line_num += 1;
 			
-				break;
+				return;
 		
 			case "host":
-				if (line_num >= 15) {
-					past_string = "> host\nEnter username: ";
-					line_num = 0;
-				}
-				else
-					past_string += keyboard_string + "\nEnter username: ";
+				past_string += keyboard_string + "\nEnter username: ";
 			
 				keyboard_string = "";
 				responding = true;
@@ -126,12 +110,7 @@ if (!is_drawing)
 				break;
 		
 			case "join":
-				if (line_num >= 15) {
-					past_string = "> join\nEnter address: ";
-					line_num = 0;
-				}
-				else
-					past_string += keyboard_string + "\nEnter address: ";
+				past_string += keyboard_string + "\nEnter address: ";
 				keyboard_string = "";
 				responding = true;
 				response_to = "join-address";
@@ -141,10 +120,6 @@ if (!is_drawing)
 				break;
 	
 			case "help":
-				if (line_num >= 12) {
-					past_string = "> ";
-					line_num = 0;
-				}
 				past_string += keyboard_string + "\n";
 				
 				add_to_queue("\n", 2);
@@ -157,8 +132,6 @@ if (!is_drawing)
 				
 				keyboard_string = "";
 			
-				line_num += 1;
-			
 				break;
 	
 			case "cls":
@@ -166,6 +139,7 @@ if (!is_drawing)
 				keyboard_string = "";
 			
 				line_num = 0;
+				scroll_pos = 0;
 			
 				break;
 	
@@ -193,5 +167,5 @@ if (!is_drawing)
 		}
 
 	}
-
 }
+

@@ -50,6 +50,7 @@ function recieved_packet(_buffer){
 			break;
 			
 		case network.player_joined:
+				
 			_socket = buffer_read(_buffer, buffer_u8);
 			_x = buffer_read(_buffer, buffer_u16);
 			_y = buffer_read(_buffer, buffer_u16);
@@ -63,8 +64,6 @@ function recieved_packet(_buffer){
 			_child.username = _username;
 			_child.player_num = _player_num;
 			_child.color_num = _color_num;
-			_child.image_blend = con_client.couleur[_color_num];
-			global.player_colors[_child.player_num] = con_client.couleur[_child.color_num];
 			player_list[_player_num] = _child;
 			
 			if (_show_join_message)
@@ -102,14 +101,14 @@ function recieved_packet(_buffer){
 					player_list[_index] = player_list[_index + 1];
 					player_list[_index].player_num = _index;
 					player_list[_index + 1] = noone;
-					global.player_colors[_index] = con_client.couleur[player_list[_index].color_num];
-					global.player_colors[_index + 1] = con_client.couleur[0];
+					// global.player_colors[_index] = con_client.couleur[player_list[_index].color_num];
+					// global.player_colors[_index + 1] = con_client.couleur[0];
 				}
 				else
 				{
 					if (player_list[_index] != noone) {
 						player_list[_index] = noone;
-						global.player_colors[_index] = con_client.couleur[0];
+						// global.player_colors[_index] = con_client.couleur[0];
 					}
 					break;
 				}
@@ -120,8 +119,6 @@ function recieved_packet(_buffer){
 				instance_destroy();
 				
 			ds_map_delete(socket_to_instanceid, _socket);
-			
-			room_goto(Room1);
 			
 			break;
 		
@@ -254,9 +251,7 @@ function recieved_packet(_buffer){
 			
 			if (player_list[_player_num] != noone)
 			{
-				player_list[_player_num].image_blend = con_client.couleur[_num];
 				player_list[_player_num].color_num = _num;
-				global.player_colors[_player_num] = con_client.couleur[_num];
 				if (instance_exists(global.players))
 					global.players.update_color();
 			}
@@ -303,8 +298,8 @@ function recieved_packet(_buffer){
 			
 			if (_num == obj_player.player_num)
 			{
-				show_message("You were kicked.");
 				game_end();
+				room_goto(rm_main_menu);
 			}
 			break;
 			
