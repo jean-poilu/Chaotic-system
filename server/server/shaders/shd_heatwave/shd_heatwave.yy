@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shd_heatwave",
+  "name":"shd_heatwave",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

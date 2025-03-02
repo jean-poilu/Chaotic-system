@@ -1,0 +1,10 @@
+msg = "";
+clr = c_white;
+start_fading = false;
+fade_rate = 0.01;
+alpha = 1;
+xscale = 1;
+yscale = 1;
+angle = 0;
+msg_type = "";
+center = false;
