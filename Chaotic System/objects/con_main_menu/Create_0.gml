@@ -78,8 +78,8 @@ if (global.session_msg == "")
 	add_to_queue("Allocating space...\n", 2);
 	add_to_queue("Reading history logs...\n", 6);
 	add_to_queue("Managing exceptions...\n", 2);
-	add_to_queue("Checking for updates...\n", 22);
-	add_to_queue("Everything is up to date.\n", 2);
+	add_to_queue("Checking for updates...\n", 25);
+	add_to_queue("GET VERSION INFO", 1);
 	add_to_queue("\n", 2);
 	add_to_queue("Welcome to the UM OS v.12.06.\n", 2);
 	add_to_queue("> ", 1);

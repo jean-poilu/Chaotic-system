@@ -83,6 +83,7 @@
     {"id":{"name":"shd_shader","path":"shaders/shd_shader/shd_shader.yy",},},
     {"id":{"name":"snd_bong_001","path":"sounds/snd_bong_001/snd_bong_001.yy",},},
     {"id":{"name":"snd_drop_003","path":"sounds/snd_drop_003/snd_drop_003.yy",},},
+    {"id":{"name":"chaos","path":"sprites/chaos/chaos.yy",},},
     {"id":{"name":"spr_bullet","path":"sprites/spr_bullet/spr_bullet.yy",},},
     {"id":{"name":"spr_explosion","path":"sprites/spr_explosion/spr_explosion.yy",},},
     {"id":{"name":"spr_mine_explode","path":"sprites/spr_mine_explode/spr_mine_explode.yy",},},

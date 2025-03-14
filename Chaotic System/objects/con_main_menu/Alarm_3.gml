@@ -20,6 +20,18 @@ if (ds_queue_head(queue) == "CREATE CLIENT") {
 	alarm[3] = 1;
 	exit;
 }
+if (ds_queue_head(queue) == "GET VERSION INFO") {
+	if (global.modUpToDate == 1)
+		past_string += "Version is up to date.\n";
+	else if (global.modUpToDate == 0)
+		past_string += "[!] New version available. Use `download` to get the latest version.\n";
+	else if (global.modUpToDate == -1)
+		past_string += "[!] Could not verify if a new version is available.\n";
+	ds_queue_dequeue(queue);
+	ds_queue_dequeue(wait_queue);
+	alarm[3] = 1;
+	exit;
+}
 
 past_string += ds_queue_head(queue);
 	

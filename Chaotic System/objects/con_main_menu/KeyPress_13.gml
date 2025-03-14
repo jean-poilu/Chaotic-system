@@ -89,7 +89,7 @@ if (!is_drawing)
 	else
 	{
 
-		switch (keyboard_string)
+		switch (string_lower(keyboard_string))
 		{
 			case "":
 				past_string += "\n> ";
@@ -143,6 +143,8 @@ if (!is_drawing)
 				add_to_queue("List of available commands:\n", 2);
 				add_to_queue("     host - Host a game\n", 1);
 				add_to_queue("     join - Join a game\n", 2);
+				add_to_queue("     download - Download latest version\n", 2);
+				add_to_queue("     cls - Clear screen\n", 2);
 				add_to_queue("     quit - Quit game\n", 1);
 				add_to_queue("\n", 1);
 				add_to_queue("> ", 1);
@@ -150,6 +152,18 @@ if (!is_drawing)
 				keyboard_string = "";
 			
 				break;
+			
+			case "download":
+				past_string += keyboard_string + "\n";
+				
+				add_to_queue("Opening https://github.com/jean-poilu/Chaotic-system/releases/latest.\n", 2);
+				add_to_queue("> ", 1);
+				url_open("https://github.com/jean-poilu/Chaotic-system/releases/latest");
+				
+				keyboard_string = "";
+				
+				break;
+				
 	
 			case "cls":
 				past_string = "> ";
