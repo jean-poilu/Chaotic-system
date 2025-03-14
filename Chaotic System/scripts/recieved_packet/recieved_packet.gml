@@ -47,6 +47,9 @@ function recieved_packet(_buffer){
 			player_list[_player_num] = _player;
 			
 			ds_map_add(socket_to_instanceid, _socket, _player);
+			
+			global.number_of_players++;
+			
 			break;
 			
 		case network.player_joined:
@@ -78,6 +81,9 @@ function recieved_packet(_buffer){
 			}
 			
 			ds_map_add(socket_to_instanceid, _socket, _child);
+			
+			global.number_of_players++;
+			
 			break;
 			
 		case network.player_disconnected:
@@ -120,6 +126,8 @@ function recieved_packet(_buffer){
 				
 			ds_map_delete(socket_to_instanceid, _socket);
 			
+			global.number_of_players--;
+			
 			break;
 		
 		case network.move0:
@@ -136,112 +144,49 @@ function recieved_packet(_buffer){
 			break;
 			
 		case network.go:
-			var _player_type = buffer_read(_buffer, buffer_u8);
-			var _room_nbr = buffer_read(_buffer, buffer_string);
-			global.number_of_players = _player_type;
+			global.number_of_players = buffer_read(_buffer, buffer_u8);
 			
-			switch (_player_type)
-			{
-				case 2:
-					global.players = obj_player_2;
-					break;
-				case 3:
-					global.players = obj_player_3;
-					break;
-				case 4:
-					global.players = obj_player_4;
-					break;
-				default:
-					global.players = obj_player_2;
-					break;
-			}
-			if (audio_is_playing(mus_menu))
-				audio_stop_sound(mus_menu);
-			room_goto(asset_get_index(_room_nbr));
+			room_goto(rm_fight);
 			break;
 			
 		case network.move1:
 			
-			var _type = buffer_read(_buffer, buffer_string);
-			
-			if (_type == "parts")
-			{
-				if (!instance_exists(global.players))
-					break;
-				var _part_amount = 4;
-				if (global.players == obj_player_3)
-					_part_amount = 3;
-			
-				for (var _i = 0; _i < _part_amount; _i++)
-				{
-					global.part[_i].x = buffer_read(_buffer, buffer_s16);
-					global.part[_i].y = buffer_read(_buffer, buffer_s16);
-				}
-			
-				with (global.players)
-				{
-					var _pos_x = 0;
-					var _pos_y = 0;
-					for (var _i = 0; _i < _part_amount; _i++)
-					{
-						_pos_x += global.part[_i].x;
-						_pos_y += global.part[_i].y;
-					}
-					x = _pos_x / _part_amount;
-					y = _pos_y / _part_amount;
+			for (var _i = 0; _i < instance_number(obj_tank); _i++) {
+				var _x = buffer_read(_buffer, buffer_f16);
+				var _y = buffer_read(_buffer, buffer_f16);
+				var _direction = buffer_read(_buffer, buffer_s16);
+				var _nozzle_image_angle = buffer_read(_buffer, buffer_s16);
+				var _player_num = buffer_read(_buffer, buffer_u8);
+				
+				with (global.tanks[_player_num]) {
+					x = _x;
+					y = _y;
+					nozzle.x = _x;
+					nozzle.y = _y;
+					image_angle = _direction;
+					nozzle.image_angle = _nozzle_image_angle;
 				}
 			}
-			else if (_type == "fish")
-			{
-				var _player_amount = 2;
-				if (global.players == 4)
-					_player_amount = 4;
-				
-				if (!instance_exists(obj_fish_game))
-					break;
-				if (!instance_exists(obj_fish_game.fish[0]))
-					break;
-				
-				if (_player_amount == 2)
-				{
-					obj_fish_game.fish[0].x = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.fish[0].y = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.rods[0].hook.x = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.rods[0].hook.y = buffer_read(_buffer, buffer_s16);
-				}
-				else if (_player_amount == 4)
-				{
-					obj_fish_game.fish[0].x = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.fish[0].y = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.rods[0].hook.x = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.rods[0].hook.y = buffer_read(_buffer, buffer_s16);
-					
-					obj_fish_game.fish[1].x = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.fish[1].y = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.rods[1].hook.x = buffer_read(_buffer, buffer_s16);
-					obj_fish_game.rods[1].hook.y = buffer_read(_buffer, buffer_s16);
-				}
-			}
+			
 			break;
 			
 		case network.destroy_player:
-			global.death_id = buffer_read(_buffer, buffer_string);
-			die();
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			with (global.tanks[_player_num])
+				instance_destroy();
 			
 			break;
 			
-		case network.create_player:
-			if (global.number_of_players == 2)
-				global.players = obj_player_2;
-			else if (global.number_of_players == 3)
-				global.players = obj_player_3;
-			else if (global.number_of_players == 4)
-				global.players = obj_player_4;
-			instance_create_layer(global.spawn_x, global.spawn_y, "Instances", global.players);
-			if (instance_exists(obj_dropper))
-			{
-				obj_dropper.sprite_index = spr_dropper_spawn;
-			}
+		case network.create_tanks:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _x = buffer_read(_buffer, buffer_s16);
+			var _y = buffer_read(_buffer, buffer_s16);
+			
+			var _tank = instance_create_layer(_x, _y, "tanks", obj_tank);
+			_tank.player_num = _player_num;
+			
+			global.tanks[_player_num] = _tank;
+			
 			break;
 			
 		case network.change_color:
@@ -257,40 +202,81 @@ function recieved_packet(_buffer){
 			}
 			break;
 			
-		case network.next_level:
-			room_goto_next();
+		case network.create_bullet:
+			var _x = buffer_read(_buffer, buffer_f16);
+			var _y = buffer_read(_buffer, buffer_f16);
+			var _d = buffer_read(_buffer, buffer_f16);
+			var _s = buffer_read(_buffer, buffer_f16);
+			var _acc = buffer_read(_buffer, buffer_f16);
+			var _t = buffer_read(_buffer, buffer_u8);
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _color = buffer_read(_buffer, buffer_string);
+			
+			_color = scr_string_to_color(_color);
+			
+			_t = ds_list_find_value(obj_bullet_parent.bullet_object_list, _t);
+			
+			var _bullet = instance_create_layer(_x, _y, "bullets", _t,
+				{ direction : _d, speed : _s, image_blend : _color });
+			_bullet.parent_tank = global.tanks[_player_num];
+			_bullet.acc = _acc;
+			
+			ds_list_add(obj_bullet_parent.bullet_id_list, _bullet);
+			
+			show_debug_message("new bullet with acc: " + string(_acc));
+			
 			break;
 		
-		case network.lightning:
-			obj_lightning.alpha = 0;
+		case network.create_mine:
+			var _x = buffer_read(_buffer, buffer_f16);
+			var _y = buffer_read(_buffer, buffer_f16);
+			var _t = buffer_read(_buffer, buffer_u8);
+			var _color = buffer_read(_buffer, buffer_string);
+			
+			_color = scr_string_to_color(_color);
+			
+			_t = ds_list_find_value(obj_mine_parent.mine_object_list, _t);
+			
+			var _mine = instance_create_layer(_x, _y, "mines", _t,
+				{ image_blend : _color });
+			
+			ds_list_add(obj_mine_parent.mine_id_list, _mine);
+			
 			break;
 		
-		case network.dialog:
-			var _action = buffer_read(_buffer, buffer_u8);
-			switch (_action)
-			{
-				case dialog_type.create:
-					if (global.last_interact_box != noone)
-						global.last_interact_box.interact_event();
-					else
-					{
-						global.last_interact_box = instance_nearest(global.players.x, global.players.y, obj_interact_box);
-						global.last_interact_box.interact_event();
-						show_debug_message("desync on dialog create??");
-					}
-					break;
-				
-				case dialog_type.complete:
-					obj_dialog.complete_text();
-					break;
-				
-				case dialog_type.next:
-					obj_dialog.next_text();
-					break;
-				
-				default:
-					break;
+		case network.explode_mine:
+			var _mode = buffer_read(_buffer, buffer_u8);
+			var _mine_num = buffer_read(_buffer, buffer_u8);
+			
+			var _mine = ds_list_find_value(obj_mine_parent.mine_id_list, _mine_num);
+			
+			if (_mode == 0) {
+				with (_mine) {
+					sprite_index = spr_mine_primed;
+				}
 			}
+			else {
+				with (_mine) {
+					sprite_index = spr_mine_explode;
+	
+					alarm[0] = 20;
+				}
+			}
+			
+			break;
+		
+		case network.destroy_bullet:
+			var _bullet_num = buffer_read(_buffer, buffer_u8);
+			var _destroy_type = buffer_read(_buffer, buffer_string);
+			
+			var _bullet = ds_list_find_value(obj_bullet_parent.bullet_id_list, _bullet_num);
+
+			with (_bullet) {
+				destroy_type = _destroy_type;
+				instance_destroy();
+			}
+			
+			
 			break;
 			
 		case network.kick:

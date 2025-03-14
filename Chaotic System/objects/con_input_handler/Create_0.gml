@@ -1,5 +1,7 @@
-move[14] = false;
-last_move[14] = false;
+input_count = 10;
 
-for (var _i = 0; _i < 14; _i++)
+move[input_count * 2] = false;
+last_move[input_count * 2] = false;
+
+for (var _i = 0; _i < input_count * 2; _i++)
 	last_move[_i] = false;

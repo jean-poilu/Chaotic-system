@@ -11,12 +11,13 @@ enum network
 	go,
 	move1,
 	destroy_player,
-	create_player,
+	create_tanks,
 	inputs,
 	change_color,
-	next_level,
-	lightning,
-	dialog,
+	create_bullet,
+	create_mine,
+	explode_mine,
+	destroy_bullet,
 	kick,
 	change_variable,
 	vote_action,
@@ -71,6 +72,10 @@ for (var _i = 0; _i < 8; _i++)
 {
 	player_list[_i] = noone;
 }
+
+randomize();
+
+con_main_menu.add_to_queue("Randoming the seed...\n", 6);
 
 con_main_menu.add_to_queue("Sending player to lobby...\n", 30 + irandom_range(-10, 10));
 con_main_menu.add_to_queue("GOTO LOBBY", 30 + irandom_range(-10, 10));

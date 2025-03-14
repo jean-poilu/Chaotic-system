@@ -4,3 +4,5 @@ move_y = true;
 move_y_step = 0;
 
 scroll_pos = 0;
+
+was_moved = false;

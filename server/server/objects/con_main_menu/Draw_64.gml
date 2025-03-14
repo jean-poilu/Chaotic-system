@@ -7,7 +7,12 @@ if (!display_terminal) {
 		if (move_y_step >= 1) {
 			move_y = false;
 			move_y_step = 0;
+			was_moved = true;
 		}
+	}
+	else if (!was_moved) {
+		y = camera_get_view_height(view_camera[0]) + 100;
+		was_moved = true;
 	}
 }
 else if (move_y) {
@@ -16,6 +21,7 @@ else if (move_y) {
 	if (move_y_step >= 1) {
 		move_y = false;
 		move_y_step = 0;
+		was_moved = true;
 	}
 }
 

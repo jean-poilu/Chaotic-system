@@ -87,6 +87,7 @@ if (!is_drawing && display_terminal)
 				add_to_queue("List of available commands:\n", 2);
 				add_to_queue("     kick - Kick a player\n", 1);
 				add_to_queue("     list - Lists connected players\n", 1);
+				add_to_queue("     start - Start game\n", 1);
 				add_to_queue("     cls - Clear screen\n", 1);
 				add_to_queue("     quit - Quit game\n", 1);
 				add_to_queue("\n", 1);
@@ -115,7 +116,7 @@ if (!is_drawing && display_terminal)
 				add_to_queue("List of connected players:\n", 2);
 				add_to_queue("\n", 2);
 				for (var _i = 0; _i < 4; _i++) {
-					if (con_server.player_list[_i] == noone) {
+					if (ds_list_size(con_server.socket_list) == 0) {
 						if (_i == 0)
 							add_to_queue("     (player list is empty)\n", 2);
 						break;
@@ -127,6 +128,40 @@ if (!is_drawing && display_terminal)
 				add_to_queue("> ", 1);
 				
 				keyboard_string = "";
+				
+				break;
+			
+			case "start":
+				past_string += keyboard_string + "\n";
+				
+				add_to_queue("Starting game...\n", 3);
+				
+				if (ds_list_size(con_server.socket_list) == 0) {
+					add_to_queue("[!] Not enough players to start game!\n", 2);
+					add_to_queue("> ", 1);
+					keyboard_string = "";
+					break;
+				}
+				add_to_queue("> ", 1);
+				keyboard_string = "";
+				
+				with (con_server)
+				{
+					var _i = 0;
+					repeat(ds_list_size(socket_list))
+					{
+						var _sock = ds_list_find_value(socket_list, _i);
+					
+						buffer_seek(server_buffer, buffer_seek_start, 0);
+						buffer_write(server_buffer, buffer_u8, network.go);
+						buffer_write(server_buffer, buffer_u8, ds_list_size(socket_list));
+					
+						network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
+					
+						_i++;
+					}
+				}
+				room_goto(rm_fight);
 				
 				break;
 	

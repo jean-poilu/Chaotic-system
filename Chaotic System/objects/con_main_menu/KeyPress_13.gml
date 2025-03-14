@@ -118,6 +118,23 @@ if (!is_drawing)
 				line_num += 1;
 			
 				break;
+			
+			case "join last":
+				past_string += keyboard_string + "\n";
+				
+				keyboard_string = "";
+				
+				ini_open("save");
+				global.address = ini_read_string("Info", "address", "127.0.0.1");
+				global.username = ini_read_string("Info", "username", "username");
+				ini_close();
+				
+				add_to_queue("Joining address " + string(global.address) + 
+					", with username " + string(global.username) + "...\n", 1);
+				
+				alarm[4] = 3;
+			
+				break;
 	
 			case "help":
 				past_string += keyboard_string + "\n";

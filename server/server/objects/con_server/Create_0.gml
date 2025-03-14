@@ -11,12 +11,13 @@ enum network
 	go,
 	move1,
 	destroy_player,
-	create_player,
+	create_tanks,
 	inputs,
 	change_color,
-	next_level,
-	lightning,
-	dialog,
+	create_bullet,
+	create_mine,
+	explode_mine,
+	destroy_bullet,
 	kick,
 	change_variable,
 	vote_action,
@@ -74,23 +75,33 @@ con_main_menu.add_to_queue("Creating server buffer...\n", 4);
 con_main_menu.add_to_queue("Creating socket list...\n", 4);
 con_main_menu.add_to_queue("Creating socket-instance list...\n", 3);
 
+randomize();
+
+con_main_menu.add_to_queue("Randoming the seed...\n", 6);
+
 player_spawn_x = 100;
 player_spawn_y = 100;
 
-global.inputs[4, 7] = 0;
-for (var _i = 0; _i < 4; _i++)
+input_count = 12;
+global.inputs[max_clients, input_count] = 0;
+global.mouse_coords[max_clients, 2] = 0;
+
+
+for (var _i = 0; _i < max_clients; _i++)
 {
-	for (var _j = 0; _j < 7; _j++)
+	for (var _j = 0; _j < input_count; _j++)
 	{
 		global.inputs[_i, _j] = 0;
 	}
+	global.mouse_coords[_i, 0] = 0;
+	global.mouse_coords[_i, 1] = 0;
 }
 
-player_list[4] = noone;
+player_list[max_clients] = noone;
 
 con_main_menu.add_to_queue("Creating player list...\n", 3);
 
-for (var _i = 0; _i < 4; _i++)
+for (var _i = 0; _i < max_clients; _i++)
 {
 	player_list[_i] = noone;
 	
@@ -100,6 +111,7 @@ for (var _i = 0; _i < 4; _i++)
 }
 
 global.messages = 0;
+global.total_bullets = 0;
 
 con_main_menu.add_to_queue("Press TAB to hide/show the terminal.\n", 2);
 con_main_menu.add_to_queue("[!] Waiting for players to join.\n", 2);

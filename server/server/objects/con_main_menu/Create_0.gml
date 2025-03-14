@@ -18,6 +18,7 @@ overboard = 0;
 move_y = false;
 move_y_step = 0;
 move_y_speed = 0.03;
+was_moved = false;
 
 display_terminal = true;
 

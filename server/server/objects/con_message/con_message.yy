@@ -11,8 +11,8 @@
   "name":"con_message",
   "overriddenProperties":[],
   "parent":{
-    "name":"cons",
-    "path":"folders/Objects/cons.yy",
+    "name":"Controllers",
+    "path":"folders/Controllers.yy",
   },
   "parentObjectId":null,
   "persistent":true,

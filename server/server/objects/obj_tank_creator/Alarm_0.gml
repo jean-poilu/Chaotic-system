@@ -1,0 +1,1 @@
+con_game_updater.send_tank_instances();

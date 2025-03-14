@@ -136,9 +136,19 @@ function received_packet(_buffer, _socket){
 			break;
 			
 		case network.inputs:
-			var _move = buffer_read(_buffer, buffer_u8);
-			var _player_num = buffer_read(_buffer, buffer_u8);
-			global.inputs[_player_num, _move] = !global.inputs[_player_num, _move];
+			var _input_type = buffer_read(_buffer, buffer_u8);
+			if (_input_type == 0) {
+				var _move = buffer_read(_buffer, buffer_u8);
+				var _player_num = buffer_read(_buffer, buffer_u8);
+				global.inputs[_player_num, _move] = !global.inputs[_player_num, _move];
+			}
+			else if (_input_type == 1) {
+				var _x = buffer_read(_buffer, buffer_s16);
+				var _y = buffer_read(_buffer, buffer_s16);
+				var _player_num = buffer_read(_buffer, buffer_u8);
+				global.mouse_coords[_player_num, 0] = _x;
+				global.mouse_coords[_player_num, 1] = _y;
+			}
 			
 			break;
 			
