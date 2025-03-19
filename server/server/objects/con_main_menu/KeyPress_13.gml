@@ -26,23 +26,9 @@ if (!is_drawing && display_terminal)
 					if (keyboard_string == con_server.player_list[_i].username) {
 						_found_player = true;
 						
-						with (con_server)
-						{
-							var _j = 0;
-							repeat(ds_list_size(socket_list))
-							{
-								var _sock = ds_list_find_value(socket_list, _j);
-				
-								buffer_seek(server_buffer, buffer_seek_start, 0);
-								buffer_write(server_buffer, buffer_u8, network.kick);
-								buffer_write(server_buffer, buffer_u8, _i);
-								network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
-				
-								_j++;
-							}
-						}
-						
-						
+						var _args = [network.kick, _i];
+						var _buffer_args = [buffer_u8, buffer_u8];
+						network_send(_args, _buffer_args);		
 					}
 				}
 				
@@ -145,22 +131,10 @@ if (!is_drawing && display_terminal)
 				add_to_queue("> ", 1);
 				keyboard_string = "";
 				
-				with (con_server)
-				{
-					var _i = 0;
-					repeat(ds_list_size(socket_list))
-					{
-						var _sock = ds_list_find_value(socket_list, _i);
-					
-						buffer_seek(server_buffer, buffer_seek_start, 0);
-						buffer_write(server_buffer, buffer_u8, network.go);
-						buffer_write(server_buffer, buffer_u8, ds_list_size(socket_list));
-					
-						network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
-					
-						_i++;
-					}
-				}
+				var _args = [network.go, ds_list_size(con_server.socket_list)];
+				var _buffer_args = [buffer_u8, buffer_u8];
+				network_send(_args, _buffer_args);
+				
 				room_goto(rm_fight);
 				
 				break;

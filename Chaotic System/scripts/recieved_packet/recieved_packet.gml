@@ -132,14 +132,14 @@ function recieved_packet(_buffer){
 		
 		case network.move0:
 			var _sock = buffer_read(_buffer, buffer_u8);
-			var move_x = buffer_read(_buffer, buffer_u16);
-			var move_y = buffer_read(_buffer, buffer_u16);
+			var _move_x = buffer_read(_buffer, buffer_f16);
+			var _move_y = buffer_read(_buffer, buffer_f16);
 			
 			_player = ds_map_find_value(socket_to_instanceid, _sock);
 			if (_player != noone)
 			{
-				_player.x = move_x;
-				_player.y = move_y;
+				_player.x = _move_x;
+				_player.y = _move_y;
 			}
 			break;
 			

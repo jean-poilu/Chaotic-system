@@ -20,6 +20,8 @@ if (place_meeting(x + hspeed, y, obj_tank)) {
 	}
 	
 	
+	if (_tank != parent_tank)
+		player_list[parent_tank.player_num].add_money(100);
 	
 	
 	destroy_type = "x";
@@ -39,7 +41,8 @@ if (place_meeting(x, y + vspeed, obj_tank)) {
 	}
 	
 	
-	
+	if (_tank != parent_tank)
+		player_list[parent_tank.player_num].money += 100;
 	
 	destroy_type = "y";
 	instance_destroy();
@@ -52,23 +55,9 @@ if (place_meeting(x, y, obj_mine_parent)) {
 	
 	var _bullet_num = ds_list_find_index(obj_bullet_parent.bullet_id_list, id);
 	
-	with (con_server)
-	{
-		var _i = 0;
-		repeat(ds_list_size(socket_list))
-		{
-			var _sock = ds_list_find_value(socket_list, _i);
-		
-			buffer_seek(server_buffer, buffer_seek_start, 0);
-			buffer_write(server_buffer, buffer_u8, network.destroy_bullet);
-			buffer_write(server_buffer, buffer_u8, _bullet_num);
-			buffer_write(server_buffer, buffer_string, "n");
-		
-			network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
-				
-			_i++;
-		}
-	}
+	var _args = [network.destroy_bullet, _bullet_num, "n"];
+	var _buffer_args = [buffer_u8, buffer_u8, buffer_string];
+	network_send(_args, _buffer_args);
 	
 	destroy_type = "n";
 	instance_destroy();

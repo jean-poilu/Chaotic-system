@@ -1,4 +1,5 @@
-parent_tank.bullet_count--;
+if (instance_exists(parent_tank))
+	parent_tank.bullet_count--;
 global.total_bullets--;
 
 var _index = ds_list_find_index(obj_bullet_parent.bullet_id_list, id);

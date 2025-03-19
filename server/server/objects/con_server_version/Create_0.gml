@@ -1,1 +1,1 @@
-global.server_version = "v0.02a";
+global.server_version = "v0.03a";

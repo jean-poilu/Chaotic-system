@@ -13,14 +13,6 @@ if (ds_queue_head(queue) == "GOTO LOBBY") {
 	display_terminal = false;
 	exit;
 }
-if (ds_queue_head(queue) == "CREATE CLIENT") {
-	global.own_server = true;
-	instance_create_depth(0, 0, 0, con_client);
-	ds_queue_dequeue(queue);
-	ds_queue_dequeue(wait_queue);
-	alarm[3] = 1;
-	exit;
-}
 
 past_string += ds_queue_head(queue);
 	
