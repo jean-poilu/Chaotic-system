@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_bullet_collide_tank_logic",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_bullet_collide_tank_logic",
+  "parent":{
+    "name":"bullet_scripts",
+    "path":"folders/Scripts/bullet_scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

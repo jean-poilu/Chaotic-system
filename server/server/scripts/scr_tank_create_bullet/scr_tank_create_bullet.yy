@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_tank_create_bullet",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_tank_create_bullet",
+  "parent":{
+    "name":"tank_scripts",
+    "path":"folders/Scripts/tank_scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

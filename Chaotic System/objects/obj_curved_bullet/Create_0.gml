@@ -8,3 +8,5 @@ can_hit_parent_tank = false;
 alarm[0] = 3;
 
 destroy_type = "n";
+
+PARTICLE_OBJECT = obj_default_bullet_particle;

@@ -19,6 +19,7 @@ enum network
 	explode_mine,
 	destroy_bullet,
 	kick,
+	give_money,
 	change_variable,
 	vote_action,
 	popup,

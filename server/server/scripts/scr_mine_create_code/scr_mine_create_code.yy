@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_mine_create_code",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_mine_create_code",
+  "parent":{
+    "name":"mine_scripts",
+    "path":"folders/Scripts/mine_scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

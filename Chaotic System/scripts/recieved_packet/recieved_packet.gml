@@ -288,6 +288,14 @@ function recieved_packet(_buffer){
 				room_goto(rm_main_menu);
 			}
 			break;
+		
+		case network.give_money:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _amount = buffer_read(_buffer, buffer_u8);
+			
+			player_list[_player_num].add_money(_amount);
+			
+			break;
 			
 		case network.vote_action:
 			var _player_num = buffer_read(_buffer, buffer_u8);

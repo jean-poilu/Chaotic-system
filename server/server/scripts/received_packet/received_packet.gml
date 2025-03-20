@@ -175,6 +175,13 @@ function received_packet(_buffer, _socket){
 			network_send(_args, _buffer_args);
 			
 			break;
+		
+		case network.give_money:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _amount = buffer_read(_buffer, buffer_u16);
+			
+			player_list[_player_num].add_money(_amount);
+			break;
 			
 		case network.change_variable:
 			var _variable = buffer_read(_buffer, buffer_string);
