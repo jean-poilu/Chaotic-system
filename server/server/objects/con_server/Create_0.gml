@@ -20,6 +20,7 @@ enum network
 	destroy_bullet,
 	kick,
 	give_money,
+	end_round,
 	change_variable,
 	vote_action,
 	popup,

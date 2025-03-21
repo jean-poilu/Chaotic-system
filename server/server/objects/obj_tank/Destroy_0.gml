@@ -6,7 +6,8 @@ var _index = ds_list_find_index(con_game_updater.tank_list, id);
 
 ds_list_delete(con_game_updater.tank_list, _index);
 
-obj_tank_creator.respawn_tank(id);
+con_game_updater.check_round_end();
+// tank_creator.respawn_tank(id);
 
 with (nozzle)
 	instance_destroy();

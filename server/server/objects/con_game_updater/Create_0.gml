@@ -30,3 +30,13 @@ function send_single_tank_instance(_tank) {
 	var _buffer_args = [buffer_u8, buffer_u8, buffer_s16, buffer_s16];
 	network_send(_args, _buffer_args);
 }
+
+function check_round_end() {
+	if (ds_list_size(tank_list) == 1) {
+		var _args = [network.end_round];
+		var _buffer_args = [buffer_u8];
+		network_send(_args, _buffer_args);
+		
+		room_goto(rm_shop);
+	}
+}

@@ -1,13 +1,16 @@
 {
   "$GMObject":"",
-  "%Name":"Point",
-  "eventList":[],
+  "%Name":"obj_shop_item",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
-  "name":"Point",
+  "name":"obj_shop_item",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"shop",
+    "path":"folders/Objects/shop.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -27,10 +30,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"spr_Point",
-    "path":"sprites/spr_Point/spr_Point.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
-  "visible":false,
+  "visible":true,
 }

@@ -296,6 +296,10 @@ function recieved_packet(_buffer){
 			player_list[_player_num].add_money(_amount);
 			
 			break;
+		
+		case network.end_round:
+			room_goto(rm_shop);
+			break;
 			
 		case network.vote_action:
 			var _player_num = buffer_read(_buffer, buffer_u8);

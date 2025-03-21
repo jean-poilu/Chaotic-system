@@ -67,6 +67,7 @@
     {"id":{"name":"Point","path":"objects/Point/Point.yy",},},
     {"id":{"name":"rm_fight","path":"rooms/rm_fight/rm_fight.yy",},},
     {"id":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
+    {"id":{"name":"rm_shop","path":"rooms/rm_shop/rm_shop.yy",},},
     {"id":{"name":"rm_waiting_room","path":"rooms/rm_waiting_room/rm_waiting_room.yy",},},
     {"id":{"name":"check_key","path":"scripts/check_key/check_key.yy",},},
     {"id":{"name":"move_everything","path":"scripts/move_everything/move_everything.yy",},},
@@ -114,6 +115,7 @@
     {"roomId":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
     {"roomId":{"name":"rm_waiting_room","path":"rooms/rm_waiting_room/rm_waiting_room.yy",},},
     {"roomId":{"name":"rm_fight","path":"rooms/rm_fight/rm_fight.yy",},},
+    {"roomId":{"name":"rm_shop","path":"rooms/rm_shop/rm_shop.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
