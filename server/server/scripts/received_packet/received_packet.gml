@@ -182,6 +182,18 @@ function received_packet(_buffer, _socket){
 			
 			player_list[_player_num].add_money(_amount);
 			break;
+		
+		case network.player_ready:
+			var _is_ready = buffer_read(_buffer, buffer_bool);
+			
+			if (_is_ready)
+				obj_shop_menu.readys++;
+			else
+				obj_shop_menu.readys--;
+			
+			obj_shop_menu.start_if_ready();
+			
+			break;
 			
 		case network.change_variable:
 			var _variable = buffer_read(_buffer, buffer_string);

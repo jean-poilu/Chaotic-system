@@ -2,7 +2,7 @@
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
-draw_text_transformed(camera_get_view_width(view_camera[0]) / 2, 60, "Shop", 3, 3, 0);
+draw_text_transformed(camera_get_view_width(view_camera[0]) / 2 + 3, 60 + 3, "Shop", 3, 3, 0);
 
 
 // Draw money
@@ -30,13 +30,6 @@ if (shake) {
 
 
 draw_text_transformed(camera_get_view_width(view_camera[0]) - 10 + shmx, 10 + shmy, "$" + string(obj_player.money), 2, 2, 0);
-
-
-// Draw items
-draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-
-
 
 draw_set_color(c_white);
 

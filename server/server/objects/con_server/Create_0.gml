@@ -21,6 +21,8 @@ enum network
 	kick,
 	give_money,
 	end_round,
+	player_ready,
+	buy_item,
 	change_variable,
 	vote_action,
 	popup,

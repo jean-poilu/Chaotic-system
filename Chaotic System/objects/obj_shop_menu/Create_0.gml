@@ -3,7 +3,7 @@ randomize();
 mouse = instance_create_depth(0, 0, 0, Point);
 
 var _player = instance_create_depth(0, 0, 0, obj_player);
-_player.money = 500;
+_player.money = 1000;
 
 draw_set_font(fnt_font);
 
@@ -52,7 +52,12 @@ while (next_power <= obj_player.money / 10 && _i < ds_list_size(item_list)) {
 
 var _x_forth = camera_get_view_width(view_camera[0]) / 4;
 
-for (_i = 0; _i < 3; _i++) {
+var _item_count = 3;
+
+if (ds_list_size(available_list) < 3)
+	_item_count = ds_list_size(available_list);
+
+for (_i = 0; _i < _item_count; _i++) {
 	var _rand_val = irandom(ds_list_size(available_list) - 1);
 	
 	var _item = instance_create_layer(_x_forth * (_i + 1), 370, "HUD", obj_shop_item);
