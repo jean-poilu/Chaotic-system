@@ -194,6 +194,16 @@ function received_packet(_buffer, _socket){
 			obj_shop_menu.start_if_ready();
 			
 			break;
+		
+		case network.buy_item:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _title = buffer_read(_buffer, buffer_string);
+			
+			player_list[_player_num].give_item(_title);
+			
+			
+			
+			break;
 			
 		case network.change_variable:
 			var _variable = buffer_read(_buffer, buffer_string);

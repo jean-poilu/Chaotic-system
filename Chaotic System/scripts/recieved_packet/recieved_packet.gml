@@ -269,6 +269,8 @@ function recieved_packet(_buffer){
 			var _bullet_num = buffer_read(_buffer, buffer_u8);
 			var _destroy_type = buffer_read(_buffer, buffer_string);
 			
+			// show_debug_message("destroying bullet: " + string(_bullet_num) + " " + _destroy_type);
+			
 			var _bullet = ds_list_find_value(obj_bullet_parent.bullet_id_list, _bullet_num);
 
 			with (_bullet) {

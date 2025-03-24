@@ -3,7 +3,7 @@ var _rc = global.inputs[player_num, 5];
 
 
 if (_lc && !last_lc && bullet_count < 3) {
-	scr_tank_create_bullet(obj_default_bullet);
+	scr_tank_create_bullet(obj_bouncy_bullet);
 }
 
 if (_rc && !last_rc && bullet_count < 3) {

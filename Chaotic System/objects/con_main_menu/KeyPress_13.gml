@@ -141,6 +141,7 @@ if (!is_drawing)
 			
 				break;
 			
+			case "jl":
 			case "join last":
 				past_string += keyboard_string + "\n";
 				
