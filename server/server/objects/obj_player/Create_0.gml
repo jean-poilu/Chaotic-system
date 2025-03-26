@@ -16,5 +16,5 @@ function add_money(_amount) {
 }
 
 function give_item(_item) {
-	
+	// ds_list_add(item_list, 
 }

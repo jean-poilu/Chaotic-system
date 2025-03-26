@@ -5,6 +5,13 @@ socket = 0;
 
 money = 1000;
 
+primary = spr_item_default;
+secondary = spr_item_curved;
+
+item_list = ds_list_create();
+ds_list_add(item_list, spr_item_default);
+ds_list_add(item_list, spr_item_curved);
+
 function add_money(_amount) {
 	
 	if (instance_exists(obj_money_display)) {
@@ -43,4 +50,18 @@ function add_money(_amount) {
 	}
 	
 	money += _amount;
+}
+
+function give_item(_spr) {
+	ds_list_add(item_list, _spr);
+}
+
+function set_primary(_spr) {
+	primary = _spr;
+	obj_shop_primary.sprite_index = _spr;
+}
+
+function set_secondary(_spr) {
+	secondary = _spr;
+	obj_shop_second.sprite_index = _spr;
 }

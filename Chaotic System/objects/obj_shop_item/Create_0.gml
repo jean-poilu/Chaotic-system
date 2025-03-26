@@ -11,6 +11,8 @@ function client_buy_item() {
 	sold = true;
 	image_blend = c_dkgrey;
 	
+	obj_player.give_item(sprite_index);
+	
 	var _args = [network.buy_item, obj_player.player_num, title];
 	var _buffer_args = [buffer_u8, buffer_u8, buffer_string];
 	network_send(_args, _buffer_args);

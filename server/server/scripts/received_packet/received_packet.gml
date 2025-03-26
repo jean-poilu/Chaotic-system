@@ -201,8 +201,6 @@ function received_packet(_buffer, _socket){
 			
 			player_list[_player_num].give_item(_title);
 			
-			
-			
 			break;
 			
 		case network.change_variable:

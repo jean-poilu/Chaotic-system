@@ -1,7 +1,7 @@
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
-if (place_meeting(x, y, obj_shop_menu.mouse) && !cant_zoom) {
+if (place_meeting(x, y, obj_shop_menu.mouse) && !cant_zoom && !instance_exists(obj_shop_item_selector)) {
 	if (image_xscale < 6) {
 		image_xscale += (6 - image_xscale) / 10;
 		image_yscale += (6 - image_yscale) / 10;
