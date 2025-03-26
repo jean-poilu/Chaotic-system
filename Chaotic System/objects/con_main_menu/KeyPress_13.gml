@@ -81,6 +81,28 @@ if (!is_drawing)
 				line_num += 3;
 			
 				break;
+			
+			case "download-prompt":
+				past_string += keyboard_string + "\n";
+				if (keyboard_string = "y") {
+					add_to_queue("Downloading latest version.\n", 2);
+					url_open("https://github.com/jean-poilu/Chaotic-system/releases/download/"
+						+ string(global.latestVersion) + "/Chaotic.System." + string(global.latestVersion) + ".zip");
+				}
+				else if (keyboard_string == "n")
+					add_to_queue("Canceling download.\n", 2);
+				else
+					add_to_queue("Invalid input, canceling download.\n", 2);
+				
+				responding = false;
+				response_to = "";
+				
+				add_to_queue("> ", 1);
+				keyboard_string = "";
+				
+				line_num += 1;
+				
+				break;
 		
 			default:
 				break;
@@ -119,6 +141,7 @@ if (!is_drawing)
 			
 				break;
 			
+			case "jl":
 			case "join last":
 				past_string += keyboard_string + "\n";
 				
@@ -156,9 +179,18 @@ if (!is_drawing)
 			case "download":
 				past_string += keyboard_string + "\n";
 				
-				add_to_queue("Opening https://github.com/jean-poilu/Chaotic-system/releases/latest.\n", 2);
-				add_to_queue("> ", 1);
-				url_open("https://github.com/jean-poilu/Chaotic-system/releases/latest");
+				if (global.modUpToDate == 1) {
+					add_to_queue("Game version is already up to date (" + string(global.client_version) + ").\n", 2);
+					add_to_queue("Are you sure you want to proceed with the download? (y/n)\n", 2);
+					responding = true;
+					response_to = "download-prompt";
+				}
+				else {
+					add_to_queue("Downloading latest version.\n", 2);
+					add_to_queue("> ", 1);
+					url_open("https://github.com/jean-poilu/Chaotic-system/releases/download/"
+						+ string(global.latestVersion) + "/Chaotic.System." + string(global.latestVersion) + ".zip");
+				}
 				
 				keyboard_string = "";
 				

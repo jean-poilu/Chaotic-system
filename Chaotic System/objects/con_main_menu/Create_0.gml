@@ -44,7 +44,7 @@ global.username = "";
 
 if (file_exists("save"))
 {
-	var _save = ini_open("save");
+	ini_open("save");
 	global.address = ini_read_string("Info", "address", "127.0.0.1");
 	global.username = ini_read_string("Info", "username", "");
 	ini_close();

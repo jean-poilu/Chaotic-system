@@ -1,4 +1,4 @@
-global.client_version = "v0.02a";
+global.client_version = "v0.03a";
 global.modUpToDate = -1;
 global.latestVersion = global.client_version
 

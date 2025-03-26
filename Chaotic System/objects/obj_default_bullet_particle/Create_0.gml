@@ -1,4 +1,4 @@
-lifespan = 60;
+lifespan = 60 + irandom_range(-30, 30);
 
 odds = 0;
 

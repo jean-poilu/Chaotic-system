@@ -1,0 +1,1 @@
+can_hit_parent_tank = true;

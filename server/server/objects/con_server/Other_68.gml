@@ -15,17 +15,10 @@ switch (_type_event)
 		socket = ds_map_find_value(async_load, "socket");
 		ds_list_delete(socket_list, ds_list_find_index(socket_list, socket));
 		
-		var _i = 0;
-		repeat(ds_list_size(socket_list))
-		{
-			var _sock = ds_list_find_value(socket_list, _i);
-			buffer_seek(server_buffer, buffer_seek_start, 0);
-			buffer_write(server_buffer, buffer_u8, network.player_disconnected);
-			buffer_write(server_buffer, buffer_u8, socket);
-			network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
-			
-			_i++;
-		}
+		var _args = [network.player_disconnected, socket];
+		var _buffer_args = [buffer_u8, buffer_u8];
+		network_send(_args, _buffer_args);
+		
 		var _player = ds_map_find_value(socket_to_instanceid, socket);
 		
 		var _index = _player.player_num;

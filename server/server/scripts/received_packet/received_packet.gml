@@ -47,27 +47,16 @@ function received_packet(_buffer, _socket){
 			break;
 			
 		case network.move0:
-			var move_x = buffer_read(_buffer, buffer_u16);
-			var move_y = buffer_read(_buffer, buffer_u16);
+			var _move_x = buffer_read(_buffer, buffer_u16);
+			var _move_y = buffer_read(_buffer, buffer_u16);
 			
 			var _player = ds_map_find_value(socket_to_instanceid, _socket);
-			_player.x = move_x;
-			_player.y = move_y;
+			_player.x = _move_x;
+			_player.y = _move_y;
 			
-			var _i = 0;
-			repeat(ds_list_size(socket_list))
-			{
-				var _sock = ds_list_find_value(socket_list, _i);
-				
-				buffer_seek(server_buffer, buffer_seek_start, 0);
-				buffer_write(server_buffer, buffer_u8, network.move0);
-				buffer_write(server_buffer, buffer_u8, _socket);
-				buffer_write(server_buffer, buffer_u16, move_x);
-				buffer_write(server_buffer, buffer_u16, move_y);
-				network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
-				
-				_i++;
-			}
+			var _args = [network.move0, _socket, _move_x, _move_y];
+			var _buffer_args = [buffer_u8, buffer_u8, buffer_f16, buffer_f16];
+			network_send(_args, _buffer_args);
 			break;
 			
 		case network.go:
@@ -181,18 +170,37 @@ function received_packet(_buffer, _socket){
 		case network.kick:
 			var _num = buffer_read(_buffer, buffer_u8);
 			
-			var _i = 0;
-			repeat(ds_list_size(socket_list))
-			{
-				var _sock = ds_list_find_value(socket_list, _i);
-				
-				buffer_seek(server_buffer, buffer_seek_start, 0);
-				buffer_write(server_buffer, buffer_u8, network.kick);
-				buffer_write(server_buffer, buffer_u8, _num);
-				network_send_packet(_sock, server_buffer, buffer_tell(server_buffer));
-				
-				_i++;
-			}
+			var _args = [network.kick, _num];
+			var _buffer_args = [buffer_u8, buffer_u8];
+			network_send(_args, _buffer_args);
+			
+			break;
+		
+		case network.give_money:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _amount = buffer_read(_buffer, buffer_u16);
+			
+			player_list[_player_num].add_money(_amount);
+			break;
+		
+		case network.player_ready:
+			var _is_ready = buffer_read(_buffer, buffer_bool);
+			
+			if (_is_ready)
+				obj_shop_menu.readys++;
+			else
+				obj_shop_menu.readys--;
+			
+			obj_shop_menu.start_if_ready();
+			
+			break;
+		
+		case network.buy_item:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _title = buffer_read(_buffer, buffer_string);
+			
+			player_list[_player_num].give_item(_title);
+			
 			break;
 			
 		case network.change_variable:

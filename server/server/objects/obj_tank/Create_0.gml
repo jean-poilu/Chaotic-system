@@ -50,10 +50,6 @@ bullet_count = 0;
 bullet_speed = 5;
 mine_count = 0;
 
-ang_vel = 0;
-last_angles = ds_list_create();
-prev_direction = direction;
-
 last_lc = 0;
 last_rc = 0;
 last_e = 0;

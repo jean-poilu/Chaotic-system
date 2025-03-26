@@ -132,14 +132,14 @@ function recieved_packet(_buffer){
 		
 		case network.move0:
 			var _sock = buffer_read(_buffer, buffer_u8);
-			var move_x = buffer_read(_buffer, buffer_u16);
-			var move_y = buffer_read(_buffer, buffer_u16);
+			var _move_x = buffer_read(_buffer, buffer_f16);
+			var _move_y = buffer_read(_buffer, buffer_f16);
 			
 			_player = ds_map_find_value(socket_to_instanceid, _sock);
 			if (_player != noone)
 			{
-				_player.x = move_x;
-				_player.y = move_y;
+				_player.x = _move_x;
+				_player.y = _move_y;
 			}
 			break;
 			
@@ -269,6 +269,8 @@ function recieved_packet(_buffer){
 			var _bullet_num = buffer_read(_buffer, buffer_u8);
 			var _destroy_type = buffer_read(_buffer, buffer_string);
 			
+			// show_debug_message("destroying bullet: " + string(_bullet_num) + " " + _destroy_type);
+			
 			var _bullet = ds_list_find_value(obj_bullet_parent.bullet_id_list, _bullet_num);
 
 			with (_bullet) {
@@ -287,6 +289,18 @@ function recieved_packet(_buffer){
 				game_end();
 				room_goto(rm_main_menu);
 			}
+			break;
+		
+		case network.give_money:
+			var _player_num = buffer_read(_buffer, buffer_u8);
+			var _amount = buffer_read(_buffer, buffer_u8);
+			
+			player_list[_player_num].add_money(_amount);
+			
+			break;
+		
+		case network.end_round:
+			room_goto(rm_shop);
 			break;
 			
 		case network.vote_action:
